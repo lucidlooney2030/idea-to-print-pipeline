@@ -1,5 +1,6 @@
 ---
 description: "Serpentine dual-magnet axial generator facts. Read when the user talks magnets, weave, poles, or EMF."
+connections: [fdm-rules, geometry-gate]
 ---
 
 # Serpentine PM generator
@@ -25,4 +26,4 @@ Parts:
 | coil | 32-col × 5-row former, Ø2.5 mm weave holes |
 | stand | 608 seat + 3 legs |
 
-After print: log designed vs measured in generator `DEBRIEF.md`. Next param tweak uses those deltas.
+After print: log designed vs measured in generator `DEBRIEF.md`. Next param tweak uses those deltas. Clearance defaults for those pockets are in [[fdm-rules]]. How the coupon is built and gated is in [[geometry-gate]].

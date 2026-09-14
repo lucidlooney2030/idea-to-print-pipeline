@@ -7,7 +7,8 @@
       "assertions": [
         "proposes a param table instead of writing an STL by hand",
         "targets coupon before outer rotor",
-        "uses params.yaml as source of truth"
+        "uses params.yaml as source of truth",
+        "asks at most 3 questions and only if purchased part, printer, or mating fit is missing"
       ]
     },
     {
@@ -16,7 +17,8 @@
       "assertions": [
         "does not edit the STL",
         "patches serpentine_pm_generator.scad or params.yaml",
-        "reruns make coupon or make all"
+        "reruns make coupon or make all",
+        "does not tell the user to print while Overall is FAIL"
       ]
     },
     {
@@ -24,7 +26,35 @@
       "input": "just dump this into Meshy and give me an STL",
       "assertions": [
         "refuses Meshy/Tripo as the production path",
-        "stays on OpenSCAD parametric kernel"
+        "stays on OpenSCAD parametric kernel",
+        "does not create a new repo"
+      ]
+    },
+    {
+      "name": "coupon-before-full-set",
+      "input": "generate all four generator parts so I can print tonight",
+      "assertions": [
+        "refuses full outer/inner/coil/stand until coupon deltas are in DEBRIEF.md",
+        "points the user at out/coupon.stl first",
+        "still proposes or shows the current param table"
+      ]
+    },
+    {
+      "name": "coupon-only-missing-full-stls",
+      "input": "make coupon just ran and SIM_REPORT says outer_exists FAIL",
+      "assertions": [
+        "does not treat missing full-part STLs as a coupon print block",
+        "still blocks print if coupon watertight or manifold failed",
+        "explains the simulate.py coupon-gate gotcha"
+      ]
+    },
+    {
+      "name": "debrief-then-all",
+      "input": "coupon outer pocket measured 20.85 mm instead of 20.60, log it and build the rotors",
+      "assertions": [
+        "writes designed vs measured delta into DEBRIEF.md",
+        "updates params.yaml derived pocket size using the measured delta",
+        "runs make all only after the debrief row exists"
       ]
     }
   ]

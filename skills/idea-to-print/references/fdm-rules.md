@@ -1,5 +1,6 @@
 ---
 description: "FDM constraints for Kobra-class printers. Read when choosing walls, clearances, or coupon features."
+connections: [geometry-gate, serpentine]
 ---
 
 # FDM rules
@@ -18,3 +19,5 @@ Printer default: Anycubic Kobra 3 Max. Nozzle 0.4 mm. Layer 0.2 mm.
 Material for rotors/hubs: PETG or ABS, 5–6 walls, ~40% infill.
 
 Do not generate organic AI meshes (Meshy, Tripo, Rodin). They are non-parametric and fail the no-hand-edit rule.
+
+When a clearance changes, update both `clearances.*` and `derived.*` in `params.yaml`. See [[geometry-gate]] for how derived is emitted. Coupon features that must appear on the first print are listed in [[serpentine]].
