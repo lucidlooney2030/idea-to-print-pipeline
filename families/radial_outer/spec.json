@@ -1,0 +1,20 @@
+{
+  "family": "radial_outer",
+  "goal": "Dual-magnet radial Faraday generator. Outer cup and inner hub rotate together. Cage is the stator. Educational watts, not grid voltage.",
+  "constraints": {
+    "printer": "kobra3max",
+    "material": "PETG",
+    "magnet_stock": [
+      {"dia_mm": 20.0, "thk_mm": 5.0, "grade": "N52", "qty": 16},
+      {"dia_mm": 5.0, "thk_mm": 5.0, "grade": "N52", "qty": 48}
+    ],
+    "max_od_mm": 132.0,
+    "wire_awg": 26
+  },
+  "requested_overrides": {
+    "poles": 16,
+    "air_gap_mm": 1.0,
+    "winding": "wave"
+  },
+  "non_claims": ["not_overunity", "not_grid_voltage"]
+}
