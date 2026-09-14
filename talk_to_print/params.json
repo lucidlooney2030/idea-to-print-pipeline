@@ -1,0 +1,13 @@
+{
+  "part": "outer",
+  "poles": 16,
+  "air_gap_mm": 1.00,
+  "slide_mm": 0.30,
+  "pockets_locked": true,
+  "outer_pocket_dia_mm": 20.60,
+  "inner_pocket_dia_mm": 5.60,
+  "outer_face_r_mm": 56.38,
+  "spine_w_mm": 6.0,
+  "inner_spine_w_mm": 3.2,
+  "rotor_od_mm": 132.0
+}

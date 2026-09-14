@@ -1,0 +1,2 @@
+flask>=3.0
+cadquery==2.7.0
