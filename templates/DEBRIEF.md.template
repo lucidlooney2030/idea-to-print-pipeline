@@ -1,24 +1,11 @@
-# DEBRIEF: <change>
+# DEBRIEF
 
-**Date:** 
-**Commit:** 
-**Branch:** 
-
-## What changed
-- 
-
-## Why
-- 
-
-## Simulation result
-- PASS / FAIL — link to SIM_REPORT.md
-
-## Print result
-- Fit coupon: 
-- Full part: 
-
-## Hiccups found
-- 
-
-## Next iteration
-- 
+- Date:
+- Family / revision:
+- Material / nozzle / layer:
+- Measured pocket fit:
+- RPM points and Voc:
+- Gap used:
+- Turns / AWG / wiring:
+- Estimate vs bench:
+- Next parameter change (one only):

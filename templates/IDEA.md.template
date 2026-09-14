@@ -1,23 +1,9 @@
-# IDEA: <short name>
+# IDEA
 
-**Date:** YYYY-MM-DD
-**Source:** voice / chat
-**Goal:** one sentence
-
-## Raw request (as spoken)
-> 
-
-## Intent summary (AI)
-- 
-
-## Constraints
-- Printer: 
-- Material: 
-- Magnets / hardware: 
-- Must-fit parts: 
-
-## Open questions
-- 
-
-## Approved parameters
-See `parameters.py` commit.
+- Family (afpm_ssdr / radial_outer / coax_drums):
+- What:
+- Why:
+- Success criteria:
+- Constraints (printer, material, magnet stock, AWG):
+- Non-claims: not overunity; not grid voltage
+- Spoken numbers (move into parameters.yaml, do not leave only here):

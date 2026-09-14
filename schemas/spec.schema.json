@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/lucidlooney2030/idea-to-print-pipeline/schemas/spec.schema.json",
+  "title": "IdeaToPrintSpec",
+  "type": "object",
+  "required": ["family", "goal", "constraints", "non_claims"],
+  "additionalProperties": false,
+  "properties": {
+    "family": {
+      "type": "string",
+      "enum": ["afpm_ssdr", "radial_outer", "coax_drums", "unknown"]
+    },
+    "goal": {
+      "type": "string",
+      "description": "What success looks like in plain language. No dimensions."
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "printer": { "type": "string", "default": "kobra3max" },
+        "material": { "type": "string" },
+        "magnet_stock": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["dia_mm", "thk_mm", "grade", "qty"],
+            "properties": {
+              "dia_mm": { "type": "number" },
+              "thk_mm": { "type": "number" },
+              "grade": { "type": "string" },
+              "qty": { "type": "integer" }
+            }
+          }
+        },
+        "max_od_mm": { "type": "number" },
+        "wire_awg": { "type": "integer" }
+      }
+    },
+    "requested_overrides": {
+      "type": "object",
+      "description": "Optional numeric intent. Parameters agent must validate against family defaults.",
+      "additionalProperties": { "type": ["number", "string", "boolean"] }
+    },
+    "non_claims": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": ["not_overunity", "not_grid_voltage"]
+    }
+  }
+}

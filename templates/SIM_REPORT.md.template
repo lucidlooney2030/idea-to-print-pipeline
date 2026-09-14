@@ -1,0 +1,8 @@
+# SIM REPORT
+
+- Tier actually run: geometry_plus_lumped_faraday | femm2d | fem3d
+- Geometry PASS/FAIL:
+- Fails:
+- EM section label: ESTIMATE / FEMM / FEM
+- Assumptions (Bg, kc, turns, poles):
+- Do not print if geometry failed.

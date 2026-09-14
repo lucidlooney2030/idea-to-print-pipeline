@@ -1,8 +1,7 @@
-# Baseline Project
+# Baseline pointer
 
-The first real design this process is built around:
+Hardware and print history live in:
 
-**Repo:** https://github.com/lucidlooney2030/serpentine-pm-generator
-**Branch:** `serpentine-v1`
+https://github.com/lucidlooney2030/generators
 
-All future change requests start from that baseline and follow the 6-step loop in `PROCESS.md`.
+Do not duplicate STLs here. The retired morning snapshot `serpentine-pm-generator` is a redirect only.
