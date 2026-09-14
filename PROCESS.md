@@ -1,43 +1,41 @@
-# Process: Voice/Chat → Finished Design
+# Process: idea → verified print
 
-## Goal
-Minimize friction between "I have an idea" and "I have a printable STL that works."
+Companion to `docs/ARCHITECTURE.md` and `docs/AGENTS.md`.
 
-## Step 1 — Capture Intent (you speak, I listen)
-- You describe the part or change in plain words.
-- I respond with a short **intent summary** + any clarifying questions (max 3).
-- No dimensions yet. No code yet.
+## 0. Pick the lane
 
-## Step 2 — Lock Parameters
-- I write/update `parameters.py` with named constants and units.
-- Example: `OUTER_MAGNET_DIA = 20.0  # mm, N52 disc`
-- You approve or correct. This is the only place numbers live.
+- Changing an existing machine → work in `generators/<project>` and keep params in one file.
+- Improving the *system* → work in this repo.
+- Do not open a new GitHub repo for a new idea.
 
-## Step 3 — Generate Geometry
-- Scripts in `parts/` rebuild solids from `parameters.py`.
-- OpenSCAD for simple CSG; CadQuery for complex mating/B-rep.
-- Never edit the resulting STL by hand.
+## 1. Capture intent (no dimensions in prose)
 
-## Step 4 — Simulate & Gate
-- `simulate.py` checks:
-  - Pocket clearance (magnet + 0.2–0.4 mm)
-  - Wall thickness ≥ 1.2 mm (0.4 mm nozzle)
-  - Manifold / watertight
-  - EMF / flux linkage (for generators)
-  - Assembly interference
-- Output: `SIM_REPORT.md`. **All PASS required** to proceed.
+Write `templates/IDEA.md` fields: what, why, success criteria, constraints, non-claims.
+The Intent agent emits `schemas/spec.schema.json` — topology + goals, not XYZ coordinates.
 
-## Step 5 — Commit & Tag
-- Commit: param change + `SIM_REPORT.md` + regenerated STLs.
-- Message format: `feat(part): short description [param-sha]`
-- Tag release when a version is print-ready.
+## 2. Lock parameters
 
-## Step 6 — Print & Learn
-- Print a **fit coupon** (small test of mating geometry) first.
-- Then full parts.
-- Log any real-world hiccup back into this file.
+One `parameters.yaml` per family. Named, unit-commented, derived values computed in code.
+You review the parameter block. You do not edit CadQuery by voice.
 
-## Hiccup Log (living)
-| Date | Symptom | Root cause | Fix | Commit SHA |
-|------|---------|------------|-----|------------|
-| | | | | |
+## 3. Generate geometry
+
+CadQuery / build123d script imports parameters.
+Export:
+- `.step` — editable B-rep for FreeCAD / other CAD
+- `.stl` — print only, regenerated, never hand-edited
+- `.json` bbox + mass properties for the gate
+
+## 4. Gate (mandatory, honest)
+
+Run `pipeline/simulate.py`.
+PASS means the *checks that exist* passed — not that Elmer/FEMM ran.
+See `docs/HICCUPS.md` for what the current gate cannot know.
+
+## 5. Print
+
+Fit coupon first. Then parts. PETG/ABS/ASA/nylon on Kobra 3 Max. Not PLA for loaded rotors.
+
+## 6. Debrief
+
+Measured vs predicted in `DEBRIEF.md`. This is the only thing that makes the next voice prompt smarter.

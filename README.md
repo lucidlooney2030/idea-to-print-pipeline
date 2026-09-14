@@ -1,47 +1,68 @@
 # Idea-to-Print Pipeline
 
-**Mission:** Turn a voice or chat idea into a finished, printable 3D design as fast and precisely as possible.
+**Mission:** Voice or chat idea → parametric CAD (editable) → gated simulation → print → measure → revise.
 
-This repo is the **process**, not the parts. The generator baseline lives in `serpentine-pm-generator`.
+This is the **system repo**. Hardware lives in [`generators`](https://github.com/lucidlooney2030/generators).
+The earlier mesh-orbit prototype lives in private `voice-stl-orbit` and is **not** the geometry source of truth.
 
-## Core Rules (non-negotiable)
-1. **Never hand-edit an STL.** Geometry comes only from parametric scripts.
-2. **All dimensions live in `parameters.py`** (or `.scad` params). One source of truth.
-3. **Every change is a Git commit** with a clear message and a `DEBRIEF.md` entry.
-4. **Simulation must pass before export.** Fit, clearance, EMF, manifold checks.
-5. **Print a fit coupon first** on any new mating geometry.
+## What this is (and is not)
 
-## The 6-Step Loop
-1. **Speak the idea** — plain language, no dimensions yet. I extract intent.
-2. **Lock parameters** — I propose named constants + units. You approve.
-3. **Generate geometry** — scripts rebuild from params. No manual STL work.
-4. **Simulate & gate** — `simulate.py` runs checks → `SIM_REPORT.md`. All PASS or iterate.
-5. **Commit & tag** — param change + report + regenerated STLs. You get SHA + one-line summary.
-6. **Print & learn** — fit coupon first, then parts. Log hiccups back into the process.
+| This is | This is not |
+|---------|-------------|
+| Parametric code as source of truth (CadQuery / build123d → STEP + STL) | A text-to-mesh toy that orbits a blob |
+| Constrained generator *families* you can edit with sliders | Freeform "imagine a generator" that invents dimensions |
+| Physics *estimates* with stated assumptions, then bench measurements | A pass/fail script that pretends FEM ran |
+| Faraday machines: work in → electricity out | Free energy / overunity |
 
-## Repo Layout
+## Account map (use these two, ignore the rest for daily work)
+
+| Repo | Role |
+|------|------|
+| **[idea-to-print-pipeline](https://github.com/lucidlooney2030/idea-to-print-pipeline)** (this) | Process, agents, skills, schemas, gates |
+| **[generators](https://github.com/lucidlooney2030/generators)** | Real printed machines (AFPM v1–v4, HF-RF16, Coax-Faraday) |
+| `voice-stl-orbit` (private) | Frozen prototype: speech → OpenSCAD templates → orbit STL |
+| `parametric-cad-pipeline`, `cad-process-docs`, `serpentine-pm-generator` | **Redirects.** Do not add work there. |
+
+## The loop
+
+```
+1. Voice / chat          Intent agent → spec JSON (no magic numbers in prose)
+2. Lock parameters       You approve parameters.yaml  ← single source of truth
+3. Generate CAD          CadQuery family script → STEP (edit) + STL (print)
+4. Gate                  fit / clearance / printability / EM estimate
+5. Print                 fit coupon first on Kobra 3 Max
+6. Bench                 V vs RPM, gap, turns → DEBRIEF.md → next revision
+```
+
+Golden rule: if you are re-describing a dimension in chat, stop. Put it in `parameters.yaml` and regenerate.
+
+## Layout
+
 ```
 idea-to-print-pipeline/
-├── README.md                 # this file
-├── PROCESS.md                # full step-by-step + hiccup log
-├── templates/
-│   ├── IDEA.md.template
-│   └── DEBRIEF.md.template
-├── scripts/
-│   ├── parameters.py          # named constants, units, tolerances
-│   ├── parts/                  # one module per printable part
-│   ├── simulate.py             # fit, clearance, EMF, manifold
-│   └── export.py               # STL + preview renders
-└── baseline/                  # pointer to serpentine-pm-generator
+  README.md                 you are here
+  docs/
+    ARCHITECTURE.md         stack + why CadQuery not mesh
+    AGENTS.md               the team and handoffs
+    HICCUPS.md              real failure modes, not vibes
+    ROADMAP.md              phases 0–3
+  skills/                   agent-readable procedures
+  schemas/                  spec + parameter contracts
+  pipeline/                 runnable gates (no fake FEM)
+  families/                 parametric generator families (code)
+  templates/                IDEA / DEBRIEF / SIM_REPORT
 ```
 
-## Baseline
-- Repo: https://github.com/lucidlooney2030/serpentine-pm-generator
-- Branch: `serpentine-v1`
-- First real change request starts here.
+## Right now (2026-09-14)
 
-## Hiccup Log
-| Date | What broke | Fix applied | Commit |
-|------|------------|-------------|
-| 2026-09-13 | First winding layout cancelled 16-pole field | Aligned poles + wave serpentine | (see generator repo) |
-| 2026-09-13 | STL placeholders instead of real geometry | Parametric .scad/.py is source of truth | (see generator repo) |
+- Process and agent contracts: **this repo**
+- Printable machines and learned physics notes: **generators**
+- Next build target: CadQuery port of one existing family (AFPM-Desk or HF-RF16) with shared `parameters.yaml` — not a new topology from a voice dump.
+
+## Safety
+
+NdFeB magnets pinch, jump, and shatter. Dual-rotor and outer-rotor stacks can crush printed plastic. Eye protection. Assemble with spacers. These are educational watt-scale machines.
+
+## License
+
+MIT. Print, remix, share. Attribution appreciated.
