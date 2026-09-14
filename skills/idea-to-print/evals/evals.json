@@ -2,59 +2,80 @@
   "skill": "idea-to-print",
   "test_cases": [
     {
-      "name": "new-part-from-speech",
-      "input": "I want a fit coupon for the 20mm outer magnets and a 608 bearing seat",
+      "name": "new-part-from-speech-generic",
+      "input": "I want a fit coupon for a 20mm magnet pocket and a 608 bearing seat",
       "assertions": [
         "proposes a param table instead of writing an STL by hand",
-        "targets coupon before outer rotor",
-        "uses params.yaml as source of truth",
-        "asks at most 3 questions and only if purchased part, printer, or mating fit is missing"
+        "targets coupon before full parts",
+        "uses the generator's param file as source of truth",
+        "asks at most 3 questions and only if purchased part, printer, or mating fit is missing",
+        "does not assume a specific generator repo without checking the registry"
       ]
     },
     {
-      "name": "gate-fail-fix-scad",
-      "input": "simulate.py failed watertight on coil.stl",
+      "name": "gate-fail-fix-source",
+      "input": "simulate.py failed watertight on body.stl",
       "assertions": [
         "does not edit the STL",
-        "patches serpentine_pm_generator.scad or params.yaml",
-        "reruns make coupon or make all",
-        "does not tell the user to print while Overall is FAIL"
+        "patches the .scad source or params.yaml",
+        "reruns the generator's coupon or all target",
+        "does not tell the user to print while the scoped gate is FAIL"
       ]
     },
     {
       "name": "reject-mesh-generators",
       "input": "just dump this into Meshy and give me an STL",
       "assertions": [
-        "refuses Meshy/Tripo as the production path",
-        "stays on OpenSCAD parametric kernel",
+        "refuses Meshy/Tripo/Rodin as the production path",
+        "stays on the parametric OpenSCAD kernel",
         "does not create a new repo"
       ]
     },
     {
       "name": "coupon-before-full-set",
-      "input": "generate all four generator parts so I can print tonight",
+      "input": "generate all the parts so I can print tonight",
       "assertions": [
-        "refuses full outer/inner/coil/stand until coupon deltas are in DEBRIEF.md",
-        "points the user at out/coupon.stl first",
+        "refuses full parts until coupon deltas are in DEBRIEF.md",
+        "points the user at the coupon STL first",
         "still proposes or shows the current param table"
       ]
     },
     {
       "name": "coupon-only-missing-full-stls",
-      "input": "make coupon just ran and SIM_REPORT says outer_exists FAIL",
+      "input": "make coupon just ran and SIM_REPORT says body_exists FAIL",
       "assertions": [
         "does not treat missing full-part STLs as a coupon print block",
         "still blocks print if coupon watertight or manifold failed",
-        "explains the simulate.py coupon-gate gotcha"
+        "explains the coupon-gate gotcha"
       ]
     },
     {
       "name": "debrief-then-all",
-      "input": "coupon outer pocket measured 20.85 mm instead of 20.60, log it and build the rotors",
+      "input": "coupon pocket measured 20.85 mm instead of 20.60, log it and build the full set",
       "assertions": [
         "writes designed vs measured delta into DEBRIEF.md",
-        "updates params.yaml derived pocket size using the measured delta",
-        "runs make all only after the debrief row exists"
+        "updates the param file's derived values using the measured delta",
+        "runs the all target only after the debrief row exists"
+      ]
+    },
+    {
+      "name": "new-generator-not-serpentine",
+      "input": "I have a bracket generator in owner/bracket-gen on main — make me a printable version with M3 holes",
+      "assertions": [
+        "reads or creates a registry entry for owner/bracket-gen instead of hard-coding serpentine",
+        "proposes params for M3 clearance and bracket dimensions",
+        "does not mention magnets, weave, or rotors",
+        "keeps the same coupon-first workflow"
+      ]
+    },
+    {
+      "name": "multi-domain-housing",
+      "input": "design a snap-fit enclosure for a 50x30x20 board, vented, PETG",
+      "assertions": [
+        "treats it as a new or existing generator, not serpentine",
+        "proposes wall thickness, vent, and snap-fit params",
+        "asks about printer or mating fit only if missing",
+        "targets a coupon of the snap feature first"
       ]
     }
   ]

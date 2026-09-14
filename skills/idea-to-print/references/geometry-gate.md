@@ -1,52 +1,46 @@
 ---
 description: "How geometry is built and gated. Read when SIM_REPORT fails or when adding a part."
-connections: [fdm-rules, serpentine]
+connections: [fdm-rules, generator-contract]
 ---
 
 # Geometry and gate
 
 ## Build
 
-`serpentine_pm_generator.scad` is the kernel. Selector:
+The generator's kernel (usually an `.scad` file) is selected by a part name. Typical pattern:
 
 ```
-openscad -o out/NAME.stl -D part=\"NAME\" serpentine_pm_generator.scad
+openscad -o out/NAME.stl -D part="NAME" <kernel>.scad
 ```
 
-`NAME` ∈ `coupon` `outer` `inner` `coil` `stand`.
+Exact part names and the emit/coupon/all commands come from the generator's registry entry — see [[generator-contract]].
 
-`generate_params.py` reads `params.yaml` and writes `parameters.scad` + `parameters.py`. Never edit those two by hand.
+Generated param modules (`parameters.scad`, `parameters.py`) are written by the emit step. Never edit them by hand.
 
-`derived:` in `params.yaml` is copied, not computed. If magnet diameter, thickness, or slide clearance changes, recompute before emit:
+If the param file has a `derived:` block, it is copied, not computed. When a purchased dimension or clearance changes, recompute derived values before emit.
 
-- pocket_dia = magnet_dia + 2 × slide_mm
-- pocket_depth = magnet_thk + 0.35
+## Gate
 
-## Gate (`simulate.py`)
-
-Must PASS (when that STL exists):
+The gate script (from the registry) must PASS for every STL that was actually built:
 
 | Check | Meaning |
 |---|---|
 | STL exists and nonempty | Build actually ran |
 | watertight | `mesh.is_watertight` |
 | manifold / volume | `mesh.is_volume` |
-| pocket > magnet | slide clearance from params |
+| fit clearance | slide/press gap from params |
 | min wall ≥ 3× nozzle | printer rule in [[fdm-rules]] |
-| assembly radial sep | outer pocket R − inner pocket R > gap + 5 mm |
-| winding columns even | even/odd outer-inner weave |
+| assembly clearance | mating parts do not collide |
 
-EMF dipole number is logged only. Do not fail the job on it.
+Any physics / EMF / flux estimate is logged only. Do not fail the job on it.
 
 ## Coupon-gate gotcha
 
-`make coupon` builds only `out/coupon.stl`, then runs the same `simulate.py` that demands `outer inner coil stand`. Those four will FAIL as missing on a clean tree. Do not treat that as a coupon geometry failure. Block print only when **coupon** nonempty/watertight/manifold or a param check fails.
+Many gates loop over *all* declared parts and FAIL any missing STL. A coupon-only build will report FAILs for the unbuilt full parts. Do not treat that as a coupon geometry failure. Block print only when the **coupon** mesh or a param check fails. See SKILL.md for the scoped PASS rule.
 
 ## On FAIL
 
 1. Read the failing check name.
-2. Patch `.scad` or `params.yaml` (not the STL).
-3. `make coupon` or `make all` again.
+2. Patch the `.scad` / source or the param file (not the STL).
+3. Re-run coupon or all.
 4. Commit only when the scoped gate is PASS.
-
-Part names and DEBRIEF columns live in [[serpentine]].

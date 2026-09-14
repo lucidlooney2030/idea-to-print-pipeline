@@ -1,0 +1,17 @@
+# Example registry entry. Copy to serpentine.yaml (drop .example) to activate.
+# idea-to-print reads generators/*.yaml — not the .example files.
+
+id: serpentine
+repo: lucidlooney2030/serpentine-pm-generator
+branch: serpentine-v1
+kernel: openscad
+param_file: params.yaml
+emit: python3 generate_params.py
+coupon_target: make coupon
+all_target: make all
+clean: make clean
+parts: [coupon, outer, inner, coil, stand]
+gate: python3 simulate.py
+notes: |
+  Dual-magnet axial, air-cored. Outer 16x Ø20x5 N52, inner 48x Ø5x5 N52.
+  Wave serpentine coil, 32 columns. 608 bearing on stand. Air gap 1.0 mm.
