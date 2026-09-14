@@ -11,7 +11,7 @@ printer:
 
 clearance:
   press_mm: 0.15
-  slide_mm: 0.30
+  slide_mm: 0.30   # LOCKED 2026-09-14 PETG coupon: perfect magnet fit
   loose_mm: 0.45
 
 poles: 16
@@ -33,21 +33,14 @@ inner_magnet:
   stack_per_pole: 3
   faces: outward
 
-# Radial stack, shaft axis at r=0. Outer magnet FACE radius is the locked datum
-# inherited from HF-RF16 / RF16S notes (56.38). Inner face = outer face
-# minus both gaps minus cage radial thickness.
 radii:
   outer_magnet_face_mm: 56.38
   cage_radial_thk_mm: 4.00
-  # derived in code:
-  # outer_magnet_back = face + 5.00 = 61.38
-  # cage_outer = face - 1.00 = 55.38
-  # cage_inner = cage_outer - 4.00 = 51.38
-  # inner_magnet_face = cage_inner - 1.00 = 50.38
-  # inner_magnet_back = face - 5.00 = 45.38
 
 pockets:
-  outer_dia_mm: 20.60   # 20 + 2*0.30
+  locked: true
+  locked_reason: "PETG coupon 2026-09-14 perfect fit on N52 stock"
+  outer_dia_mm: 20.60
   outer_depth_mm: 5.35
   outer_lip_id_mm: 18.40
   inner_dia_mm: 5.60
