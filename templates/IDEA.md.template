@@ -1,23 +1,5 @@
-# IDEA: <short name>
-
-**Date:** YYYY-MM-DD
-**Source:** voice / chat
-**Goal:** one sentence
-
-## Raw request (as spoken)
-> 
-
-## Intent summary (AI)
-- 
-
-## Constraints
-- Printer: 
-- Material: 
-- Magnets / hardware: 
-- Must-fit parts: 
-
-## Open questions
-- 
-
-## Approved parameters
-See `parameters.py` commit.
+# Idea capture
+Date:
+Intent:
+Clarifications:
+Approved params: (link to params.yaml commit)

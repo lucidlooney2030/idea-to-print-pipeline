@@ -1,24 +1,2 @@
-# DEBRIEF: <change>
-
-**Date:** 
-**Commit:** 
-**Branch:** 
-
-## What changed
-- 
-
-## Why
-- 
-
-## Simulation result
-- PASS / FAIL — link to SIM_REPORT.md
-
-## Print result
-- Fit coupon: 
-- Full part: 
-
-## Hiccups found
-- 
-
-## Next iteration
-- 
+# Fit coupon debrief
+Designed | Measured | Delta | Notes
