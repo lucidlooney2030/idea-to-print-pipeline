@@ -1,0 +1,31 @@
+{
+  "skill": "idea-to-print",
+  "test_cases": [
+    {
+      "name": "new-part-from-speech",
+      "input": "I want a fit coupon for the 20mm outer magnets and a 608 bearing seat",
+      "assertions": [
+        "proposes a param table instead of writing an STL by hand",
+        "targets coupon before outer rotor",
+        "uses params.yaml as source of truth"
+      ]
+    },
+    {
+      "name": "gate-fail-fix-scad",
+      "input": "simulate.py failed watertight on coil.stl",
+      "assertions": [
+        "does not edit the STL",
+        "patches serpentine_pm_generator.scad or params.yaml",
+        "reruns make coupon or make all"
+      ]
+    },
+    {
+      "name": "reject-mesh-generators",
+      "input": "just dump this into Meshy and give me an STL",
+      "assertions": [
+        "refuses Meshy/Tripo as the production path",
+        "stays on OpenSCAD parametric kernel"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "skill": "idea-to-print",
+  "test_cases": [
+    {"input": "turn this idea into a printable STL", "should_trigger": true},
+    {"input": "voice to print the magnet rotor coupon", "should_trigger": true},
+    {"input": "update params.yaml and rebuild the coil former", "should_trigger": true},
+    {"input": "write a poem about magnets", "should_trigger": false},
+    {"input": "debug my Python web server", "should_trigger": false}
+  ]
+}
